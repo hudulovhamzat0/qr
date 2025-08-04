@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <style>
+        /* Simple & Beautiful QR Code Generator - Black & Orange */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --orange-primary: #ff6b35;
+            --orange-glow: #ff8c42;
+            --orange-light: #ffab73;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #333333;
+            --shadow-orange: 0 10px 30px rgba(255, 107, 53, 0.3);
+            --shadow-dark: 0 8px 25px rgba(0, 0, 0, 0.4);
+            --transition: all 0.3s ease;
+        }
+
+        /* Light theme */
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
+            --shadow-dark: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px 40px;
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        /* Header */
+        .header {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .header-btn:hover {
+            border-color: var(--orange-primary);
+            background: rgba(255, 107, 53, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .theme-toggle {
+            position: relative;
+        }
+
+        .theme-toggle::after {
+            content: '🌙';
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] .theme-toggle::after {
+            content: '☀️';
+        }
+
+        .source-btn::after { content: '<>'; font-weight: 600; font-size: 18px; line-height: 1; }
+
+        /* Main content area */
+        .main-content {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: center;
+            margin-top: -60px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--orange-primary), var(--orange-glow));
+            border-radius: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+            display: block;
+            text-align: center;
+        }
+
+        #text {
+            width: 280px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        #text::placeholder {
+            color: var(--text-secondary);
+        }
+
+        #text:focus {
+            border-color: var(--orange-primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            background: rgba(26, 26, 26, 0.8);
+        }
+
+        [data-theme="light"] #text:focus {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        button {
+            width: 180px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--orange-primary), var(--orange-glow));
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 30px;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-orange);
+            background: linear-gradient(135deg, var(--orange-glow), var(--orange-light));
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #qrcode {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #qrcode:empty::before {
+            content: 'QR code will appear here';
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        #qrcode canvas {
+            border-radius: 8px;
+            animation: fadeIn 0.4s ease-out;
+            max-width: 100%;
+            height: auto;
+        }
+
+        #qrcode:not(:empty) {
+            border-color: var(--orange-primary);
+            box-shadow: var(--shadow-dark), 0 0 20px rgba(255, 107, 53, 0.1);
+            background: rgba(26, 26, 26, 0.6);
+        }
+
+        [data-theme="light"] #qrcode:not(:empty) {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #downloadLink {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            margin: 20px auto 0;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--orange-primary);
+            background: transparent;
+            border: 2px solid var(--orange-primary);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        #downloadLink::before {
+            content: '↓';
+            margin-right: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        #downloadLink:hover {
+            background: var(--orange-primary);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-orange);
+        }
+
+        /* Subtle glow effect */
+        button:focus,
+        #text:focus,
+        #downloadLink:focus {
+            outline: none;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 0 20px 25px;
+            }
+            
+            .header {
+                max-width: 100%;
+                padding: 15px 0;
+            }
+            
+            .header-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .main-content {
+                max-width: 100%;
+                margin-top: -40px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+                margin-bottom: 35px;
+            }
+            
+            #text {
+                width: 85vw;
+                max-width: 350px;
+                padding: 16px 18px;
+                font-size: 16px;
+            }
+            
+            button {
+                width: 70vw;
+                max-width: 280px;
+                padding: 16px 24px;
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+            
+            #downloadLink {
+                width: 75vw;
+                max-width: 300px;
+                padding: 14px 20px;
+                font-size: 15px;
+            }
+            
+            #qrcode {
+                padding: 25px 20px;
+                min-height: 150px;
+                margin: 0 auto;
+                width: 90vw;
+                max-width: 380px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0 15px 20px;
+            }
+            
+            .header {
+                padding: 12px 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            
+            h1::after {
+                width: 50px;
+                height: 3px;
+            }
+            
+            #text {
+                width: 90vw;
+                max-width: 320px;
+                padding: 15px 16px;
+                font-size: 15px;
+            }
+            
+            button {
+                width: 75vw;
+                max-width: 250px;
+                padding: 15px 20px;
+                font-size: 15px;
+                margin-bottom: 25px;
+            }
+            
+            #downloadLink {
+                width: 80vw;
+                max-width: 270px;
+                padding: 13px 18px;
+                font-size: 14px;
+            }
+            
+            #qrcode {
+                padding: 20px 15px;
+                min-height: 130px;
+                width: 95vw;
+                max-width: 350px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            #text {
+                width: 95vw;
+                padding: 14px 15px;
+                font-size: 14px;
+            }
+            
+            button {
+                width: 80vw;
+                padding: 14px 18px;
+                font-size: 14px;
+            }
+            
+            #downloadLink {
+                width: 85vw;
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div></div>
+        <div class="header-buttons">
+            <button class="header-btn source-btn" onclick="showSourceCode()" title="View Source Code"></button>
+            <button class="header-btn theme-toggle" onclick="toggleTheme()" title="Toggle Theme"></button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Static QR Code Generator</h1>
+        <div class="input-group">
+            <input type="text" id="text" placeholder="Enter text or URL">
+        </div>
+        <button onclick="generateQRCode()">Generate</button>
+        <div id="qrcode"></div>
+        <a id="downloadLink" style="display:none;" download="qr-code.png">Download QR Code</a>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? null : 'light';
+            
+            if (newTheme) {
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        }
+
+        // Show source code
+        function showSourceCode() {
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write('<pre>' + document.documentElement.outerHTML.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>');
+            newWindow.document.title = 'QR Generator Source Code';
+        }
+
+        // QR Code generation
+        function generateQRCode() {
+            const container = document.getElementById("qrcode");
+            const text = document.getElementById("text").value.trim();
+            const downloadLink = document.getElementById("downloadLink");
+            
+            container.innerHTML = ""; // Clear previous QR
+            downloadLink.style.display = "none";
+            
+            if (!text) {
+                alert('Please enter some text or URL');
+                return;
+            }
+            
+            new QRCode(container, {
+                text: text,
+                width: 200,
+                height: 200,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Wait for QR to render, then create downloadable link
+            setTimeout(() => {
+                const img = container.querySelector("img");
+                if (img) {
+                    downloadLink.href = img.src;
+                    downloadLink.style.display = "inline-flex";
+                }
+            }, 100);
+        }
+
+        // Enter key support
+        document.getElementById('text').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateQRCode();
+            }
+        });
+
+        // Load theme on page load
+        document.addEventListener('DOMContentLoaded', loadTheme);
+    </script>
+</body>
+</html>
