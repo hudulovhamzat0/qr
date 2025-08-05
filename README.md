@@ -255,6 +255,6 @@ copies of the Software...
 
 **Made with ❤️ for the open source community by Hudulov Hamzat**
 
-[⭐ Star this project](https://github.com/hudulovhamzat0/) if you find it useful!
+[⭐ Star this project](https://github.com/hudulovhamzat0/qr) if you find it useful!
 
 </div>
