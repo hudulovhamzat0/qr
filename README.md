@@ -8,7 +8,7 @@ A powerful, feature-rich QR code generator with modern design, real-time preview
 ![CSS](https://img.shields.io/badge/CSS-Modern-blueviolet)
 
 ## ScreenShot of Web Apllication
-<img src='https://github.com/hudulovhamzat0/qr/blob/main/ss.png'>
+<img src='https://github.com/hudulovhamzatt0/qr/blob/main/ss.png'>
 
 
 ## ✨ Features
@@ -60,7 +60,7 @@ npx serve .
 ### Option 3: GitHub Pages
 1. Fork this repository
 2. Enable GitHub Pages in settings
-3. Access via `https://hudulovhamza.github.io/qr
+3. Access via `https://hudulovhamzat.github.io/qr
 
 ## 📖 Usage Guide
 
@@ -255,6 +255,6 @@ copies of the Software...
 
 **Made with ❤️ for the open source community by Hudulov Hamzat**
 
-[⭐ Star this project](https://github.com/hudulovhamzat0/qr) if you find it useful!
+[⭐ Star this project](https://github.com/hudulovhamzatt0/qr) if you find it useful!
 
 </div>
