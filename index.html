@@ -1204,10 +1204,7 @@ END:VCARD`;
 
         // Show source code
         function showSourceCode() {
-            const newWindow = window.open('', '_blank');
-            newWindow.document.write('<pre style="white-space: pre-wrap; word-wrap: break-word; font-family: monospace; padding: 20px;">' + 
-                document.documentElement.outerHTML.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>');
-            newWindow.document.title = 'QR Generator Source Code';
+            window.open('https://www.github.com/hudulovhamzat0/qr', '_blank');
         }
 
         // Page load
