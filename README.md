@@ -60,7 +60,7 @@ npx serve .
 ### Option 3: GitHub Pages
 1. Fork this repository
 2. Enable GitHub Pages in settings
-3. Access via `https://hudulovhamzat.github.io/qr/
+3. Access via `https://hudulovhamzat0.github.io/qr/
 
 ## 📖 Usage Guide
 
