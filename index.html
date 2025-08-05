@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gelişmiş QR Kod Üretici</title>
+    <title>Advanced QR Code Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -303,7 +303,7 @@
         }
 
         .qr-preview:empty::before {
-            content: 'QR kod önizlemesi burada görünecek';
+            content: 'QR code preview will appear here';
             color: var(--text-secondary);
             font-size: 14px;
         }
@@ -467,54 +467,54 @@
 </head>
 <body>
     <div class="container">
-        <!-- Ana Panel -->
+        <!-- Main Panel -->
         <div class="main-panel">
             <div class="header">
-                <h1>QR Kod Üretici</h1>
+                <h1>QR Code Generator</h1>
                 <div class="header-buttons">
-                    <button class="header-btn history-btn" onclick="toggleHistory()" title="Geçmiş"></button>
-                    <button class="header-btn source-btn" onclick="showSourceCode()" title="Kaynak Kod"></button>
-                    <button class="header-btn theme-toggle" onclick="toggleTheme()" title="Tema"></button>
+                    <button class="header-btn history-btn" onclick="toggleHistory()" title="History"></button>
+                    <button class="header-btn source-btn" onclick="showSourceCode()" title="Source Code"></button>
+                    <button class="header-btn theme-toggle" onclick="toggleTheme()" title="Theme"></button>
                 </div>
             </div>
 
-            <!-- QR Türü Seçimi -->
+            <!-- QR Type Selection -->
             <div class="section">
-                <div class="section-title">QR Kod Türü</div>
+                <div class="section-title">QR Code Type</div>
                 <div class="form-group">
                     <select class="form-select" id="qrType" onchange="changeQRType()">
-                        <option value="text">Metin/URL</option>
+                        <option value="text">Text/URL</option>
                         <option value="wifi">WiFi</option>
-                        <option value="vcard">Kartvizit (vCard)</option>
+                        <option value="vcard">Business Card (vCard)</option>
                         <option value="sms">SMS</option>
-                        <option value="email">E-posta</option>
+                        <option value="email">Email</option>
                     </select>
                 </div>
 
-                <!-- Metin/URL -->
+                <!-- Text/URL -->
                 <div id="textInputs" class="qr-inputs">
                     <div class="form-group">
-                        <label class="form-label">Metin veya URL</label>
-                        <textarea class="form-textarea" id="textContent" placeholder="Metninizi veya URL'nizi girin" oninput="generatePreview()"></textarea>
+                        <label class="form-label">Text or URL</label>
+                        <textarea class="form-textarea" id="textContent" placeholder="Enter your text or URL" oninput="generatePreview()"></textarea>
                     </div>
                 </div>
 
                 <!-- WiFi -->
                 <div id="wifiInputs" class="qr-inputs" style="display: none;">
                     <div class="form-group">
-                        <label class="form-label">Ağ Adı (SSID)</label>
-                        <input type="text" class="form-input" id="wifiSSID" placeholder="WiFi ağ adı" oninput="generatePreview()">
+                        <label class="form-label">Network Name (SSID)</label>
+                        <input type="text" class="form-input" id="wifiSSID" placeholder="WiFi network name" oninput="generatePreview()">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Şifre</label>
-                        <input type="text" class="form-input" id="wifiPassword" placeholder="WiFi şifresi" oninput="generatePreview()">
+                        <label class="form-label">Password</label>
+                        <input type="text" class="form-input" id="wifiPassword" placeholder="WiFi password" oninput="generatePreview()">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Güvenlik</label>
+                        <label class="form-label">Security</label>
                         <select class="form-select" id="wifiSecurity" onchange="generatePreview()">
                             <option value="WPA">WPA/WPA2</option>
                             <option value="WEP">WEP</option>
-                            <option value="nopass">Şifresiz</option>
+                            <option value="nopass">No Password</option>
                         </select>
                     </div>
                 </div>
@@ -523,25 +523,25 @@
                 <div id="vcardInputs" class="qr-inputs" style="display: none;">
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label">Ad</label>
-                            <input type="text" class="form-input" id="vcardFirstName" placeholder="Ad" oninput="generatePreview()">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-input" id="vcardFirstName" placeholder="First name" oninput="generatePreview()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Soyad</label>
-                            <input type="text" class="form-input" id="vcardLastName" placeholder="Soyad" oninput="generatePreview()">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-input" id="vcardLastName" placeholder="Last name" oninput="generatePreview()">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Şirket</label>
-                        <input type="text" class="form-input" id="vcardOrg" placeholder="Şirket adı" oninput="generatePreview()">
+                        <label class="form-label">Company</label>
+                        <input type="text" class="form-input" id="vcardOrg" placeholder="Company name" oninput="generatePreview()">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Telefon</label>
-                        <input type="tel" class="form-input" id="vcardPhone" placeholder="Telefon numarası" oninput="generatePreview()">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" class="form-input" id="vcardPhone" placeholder="Phone number" oninput="generatePreview()">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">E-posta</label>
-                        <input type="email" class="form-input" id="vcardEmail" placeholder="E-posta adresi" oninput="generatePreview()">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="vcardEmail" placeholder="Email address" oninput="generatePreview()">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Website</label>
@@ -552,46 +552,46 @@
                 <!-- SMS -->
                 <div id="smsInputs" class="qr-inputs" style="display: none;">
                     <div class="form-group">
-                        <label class="form-label">Telefon Numarası</label>
-                        <input type="tel" class="form-input" id="smsPhone" placeholder="Telefon numarası" oninput="generatePreview()">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" id="smsPhone" placeholder="Phone number" oninput="generatePreview()">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Mesaj</label>
-                        <textarea class="form-textarea" id="smsMessage" placeholder="SMS mesajı" oninput="generatePreview()"></textarea>
+                        <label class="form-label">Message</label>
+                        <textarea class="form-textarea" id="smsMessage" placeholder="SMS message" oninput="generatePreview()"></textarea>
                     </div>
                 </div>
 
-                <!-- E-posta -->
+                <!-- Email -->
                 <div id="emailInputs" class="qr-inputs" style="display: none;">
                     <div class="form-group">
-                        <label class="form-label">E-posta Adresi</label>
-                        <input type="email" class="form-input" id="emailAddress" placeholder="E-posta adresi" oninput="generatePreview()">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" id="emailAddress" placeholder="Email address" oninput="generatePreview()">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Konu</label>
-                        <input type="text" class="form-input" id="emailSubject" placeholder="E-posta konusu" oninput="generatePreview()">
+                        <label class="form-label">Subject</label>
+                        <input type="text" class="form-input" id="emailSubject" placeholder="Email subject" oninput="generatePreview()">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Mesaj</label>
-                        <textarea class="form-textarea" id="emailBody" placeholder="E-posta mesajı" oninput="generatePreview()"></textarea>
+                        <label class="form-label">Message</label>
+                        <textarea class="form-textarea" id="emailBody" placeholder="Email message" oninput="generatePreview()"></textarea>
                     </div>
                 </div>
             </div>
 
-            <!-- Görsel Ayarlar -->
+            <!-- Visual Settings -->
             <div class="section">
-                <div class="section-title">Görsel Ayarlar</div>
+                <div class="section-title">Visual Settings</div>
                 
-                <!-- Renkler -->
+                <!-- Colors -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">Ön Plan Rengi</label>
+                        <label class="form-label">Foreground Color</label>
                         <div class="color-input-group">
                             <input type="color" class="color-input" id="foregroundColor" value="#000000" onchange="generatePreview()">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Arka Plan Rengi</label>
+                        <label class="form-label">Background Color</label>
                         <div class="color-input-group">
                             <input type="color" class="color-input" id="backgroundColor" value="#ffffff" onchange="generatePreview()">
                         </div>
@@ -602,7 +602,7 @@
                 <div class="form-group">
                     <div class="checkbox-group">
                         <input type="checkbox" class="checkbox" id="useGradient" onchange="toggleGradient()">
-                        <label class="form-label">Gradient Kullan</label>
+                        <label class="form-label">Use Gradient</label>
                     </div>
                     <div id="gradientControls" style="display: none;">
                         <div class="gradient-controls">
@@ -614,10 +614,10 @@
                             </div>
                             <div class="form-group">
                                 <select class="form-select" id="gradientDirection" onchange="generatePreview()">
-                                    <option value="0">Yatay</option>
-                                    <option value="90">Dikey</option>
-                                    <option value="45">Çapraz</option>
-                                    <option value="135">Ters Çapraz</option>
+                                    <option value="0">Horizontal</option>
+                                    <option value="90">Vertical</option>
+                                    <option value="45">Diagonal</option>
+                                    <option value="135">Reverse Diagonal</option>
                                 </select>
                             </div>
                         </div>
@@ -626,47 +626,47 @@
 
                 <!-- Logo -->
                 <div class="form-group">
-                    <label class="form-label">Logo Ekle</label>
+                    <label class="form-label">Add Logo</label>
                     <div class="logo-upload">
                         <input type="file" accept="image/*" onchange="handleLogoUpload(event)">
-                        <button type="button" class="btn btn-secondary" style="width: 100%;">Logo Seç</button>
+                        <button type="button" class="btn btn-secondary" style="width: 100%;">Choose Logo</button>
                     </div>
                     <div class="logo-preview" id="logoPreview">
-                        <span style="color: var(--text-secondary);">Logo önizleme</span>
+                        <span style="color: var(--text-secondary);">Logo preview</span>
                     </div>
                 </div>
 
-                <!-- Stil Seçenekleri -->
+                <!-- Style Options -->
                 <div class="form-group">
-                    <label class="form-label">QR Stil</label>
+                    <label class="form-label">QR Style</label>
                     <div class="style-options">
-                        <div class="style-option selected" data-style="square" onclick="selectStyle('square')">Kare</div>
-                        <div class="style-option" data-style="circle" onclick="selectStyle('circle')">Yuvarlak</div>
-                        <div class="style-option" data-style="rounded" onclick="selectStyle('rounded')">Yumuşak</div>
+                        <div class="style-option selected" data-style="square" onclick="selectStyle('square')">Square</div>
+                        <div class="style-option" data-style="circle" onclick="selectStyle('circle')">Round</div>
+                        <div class="style-option" data-style="rounded" onclick="selectStyle('rounded')">Soft</div>
                     </div>
                 </div>
 
-                <!-- Boyut -->
+                <!-- Size -->
                 <div class="form-group">
-                    <label class="form-label">Boyut: <span id="sizeValue">300</span>px</label>
+                    <label class="form-label">Size: <span id="sizeValue">300</span>px</label>
                     <input type="range" class="form-input" id="qrSize" min="200" max="800" value="300" oninput="updateSize(); generatePreview()">
                 </div>
             </div>
         </div>
 
-        <!-- Önizleme Paneli -->
+        <!-- Preview Panel -->
         <div class="preview-panel">
-            <div class="section-title">Önizleme</div>
+            <div class="section-title">Preview</div>
             <div class="qr-preview" id="qrPreview"></div>
             
             <div class="download-options">
-                <button class="btn" onclick="downloadQR('png')">PNG İndir</button>
-                <button class="btn" onclick="downloadQR('jpg')">JPG İndir</button>
-                <button class="btn" onclick="downloadQR('svg')">SVG İndir</button>
-                <button class="btn" onclick="downloadQR('pdf')">PDF İndir</button>
+                <button class="btn" onclick="downloadQR('png')">Download PNG</button>
+                <button class="btn" onclick="downloadQR('jpg')">Download JPG</button>
+                <button class="btn" onclick="downloadQR('svg')">Download SVG</button>
+                <button class="btn" onclick="downloadQR('pdf')">Download PDF</button>
             </div>
 
-            <div class="section-title">Paylaş</div>
+            <div class="section-title">Share</div>
             <div class="share-buttons">
                 <a href="#" class="share-btn share-twitter" onclick="shareToTwitter()" title="Twitter">🐦</a>
                 <a href="#" class="share-btn share-facebook" onclick="shareToFacebook()" title="Facebook">📘</a>
@@ -676,12 +676,12 @@
         </div>
     </div>
 
-    <!-- Geçmiş Paneli -->
+    <!-- History Panel -->
     <div class="history-overlay" onclick="closeHistory()"></div>
     <div class="history-panel" id="historyPanel">
-        <h2>QR Kod Geçmişi</h2>
+        <h2>QR Code History</h2>
         <div id="historyList"></div>
-        <button class="btn btn-secondary" onclick="clearHistory()" style="width: 100%; margin-top: 20px;">Geçmişi Temizle</button>
+        <button class="btn btn-secondary" onclick="clearHistory()" style="width: 100%; margin-top: 20px;">Clear History</button>
     </div>
 
     <script>
@@ -689,7 +689,7 @@
         let currentLogoData = null;
         let qrHistory = JSON.parse(localStorage.getItem('qrHistory') || '[]');
 
-        // Tema işlevleri
+        // Theme functions
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? null : 'light';
@@ -710,7 +710,7 @@
             }
         }
 
-        // QR türü değişimi
+        // QR type change
         function changeQRType() {
             const qrType = document.getElementById('qrType').value;
             document.querySelectorAll('.qr-inputs').forEach(input => {
@@ -720,7 +720,7 @@
             generatePreview();
         }
 
-        // QR içerik oluşturma
+        // Generate QR content
         function generateQRContent() {
             const qrType = document.getElementById('qrType').value;
             
@@ -767,7 +767,7 @@ END:VCARD`;
             }
         }
 
-        // Gerçek zamanlı önizleme
+        // Real-time preview
         function generatePreview() {
             const content = generateQRContent();
             if (!content.trim()) return;
@@ -798,11 +798,11 @@ END:VCARD`;
                     addLogoToQR();
                 }
             } catch (error) {
-                console.error('QR kod oluşturma hatası:', error);
+                console.error('QR code generation error:', error);
             }
         }
 
-        // Canvas ile QR kod oluşturma
+        // Create QR canvas
         function createQRCanvas(qr, size, foregroundColor, backgroundColor) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -812,11 +812,11 @@ END:VCARD`;
             canvas.width = size;
             canvas.height = size;
             
-            // Arka plan
+            // Background
             ctx.fillStyle = backgroundColor;
             ctx.fillRect(0, 0, size, size);
             
-            // QR modülleri
+            // QR modules
             ctx.fillStyle = foregroundColor;
             const style = document.querySelector('.style-option.selected').dataset.style;
             
@@ -827,10 +827,6 @@ END:VCARD`;
                         const y = row * cellSize;
                         
                         if (style === 'circle') {
-                            ctx.beginPath();
-                            ctx.arc(x + cellSize/2, y + cellSize/2, cellSize/2, 0, 2 * Math.PI);
-                            ctx.fill();
-                        } else if (style === 'rounded') {
                             ctx.beginPath();
                             ctx.roundRect(x, y, cellSize, cellSize, cellSize/4);
                             ctx.fill();
@@ -844,7 +840,7 @@ END:VCARD`;
             return canvas;
         }
 
-        // Gradient SVG QR kod oluşturma
+        // Create gradient SVG QR code
         function createGradientQR(qr, size) {
             const modules = qr.getModuleCount();
             const cellSize = size / modules;
@@ -892,7 +888,7 @@ END:VCARD`;
             return svg;
         }
 
-        // Logo yükleme
+        // Logo upload
         function handleLogoUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -907,7 +903,7 @@ END:VCARD`;
             }
         }
 
-        // Logo ekleme
+        // Add logo to QR
         function addLogoToQR() {
             const container = document.getElementById('qrPreview');
             const qrElement = container.querySelector('canvas, svg');
@@ -921,7 +917,7 @@ END:VCARD`;
                     const x = (qrElement.width - logoSize) / 2;
                     const y = (qrElement.height - logoSize) / 2;
                     
-                    // Logo arka planı
+                    // Logo background
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
                     
@@ -932,7 +928,7 @@ END:VCARD`;
             logo.src = currentLogoData;
         }
 
-        // Stil seçimi
+        // Style selection
         function selectStyle(style) {
             document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
             document.querySelector(`[data-style="${style}"]`).classList.add('selected');
@@ -946,12 +942,12 @@ END:VCARD`;
             generatePreview();
         }
 
-        // Boyut güncelleme
+        // Size update
         function updateSize() {
             document.getElementById('sizeValue').textContent = document.getElementById('qrSize').value;
         }
 
-        // İndirme işlevleri
+        // Download functions
         function downloadQR(format) {
             if (!currentQRData) return;
             
@@ -959,7 +955,7 @@ END:VCARD`;
             const qrElement = container.querySelector('canvas, svg');
             if (!qrElement) return;
             
-            // Geçmişe ekle
+            // Add to history
             addToHistory();
             
             const filename = `qr-code.${format}`;
@@ -977,7 +973,7 @@ END:VCARD`;
             let canvas;
             
             if (element.tagName === 'SVG') {
-                // SVG'yi canvas'a çevir
+                // Convert SVG to canvas
                 canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 const svgData = new XMLSerializer().serializeToString(element);
@@ -1012,7 +1008,7 @@ END:VCARD`;
             if (element.tagName === 'SVG') {
                 svgData = new XMLSerializer().serializeToString(element);
             } else {
-                // Canvas'ı SVG'ye çevir (basit yöntem)
+                // Convert canvas to SVG (simple method)
                 const size = element.width;
                 svgData = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
                     <image href="${element.toDataURL()}" width="${size}" height="${size}"/>
@@ -1034,7 +1030,7 @@ END:VCARD`;
                 const imgData = element.toDataURL('image/png');
                 pdf.addImage(imgData, 'PNG', 10, 10, 100, 100);
             } else {
-                // SVG için
+                // For SVG
                 const svgData = new XMLSerializer().serializeToString(element);
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
@@ -1056,9 +1052,9 @@ END:VCARD`;
             pdf.save(filename);
         }
 
-        // Paylaşım işlevleri
+        // Share functions
         function shareToTwitter() {
-            const text = encodeURIComponent('QR kodum hazır! #QRCode');
+            const text = encodeURIComponent('My QR code is ready! #QRCode');
             window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
         }
 
@@ -1067,22 +1063,22 @@ END:VCARD`;
         }
 
         function shareToWhatsApp() {
-            const text = encodeURIComponent('QR kodum hazır!');
+            const text = encodeURIComponent('My QR code is ready!');
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
         function shareToTelegram() {
-            const text = encodeURIComponent('QR kodum hazır!');
+            const text = encodeURIComponent('My QR code is ready!');
             window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${text}`, '_blank');
         }
 
-        // Geçmiş işlevleri
+        // History functions
         function addToHistory() {
             const historyItem = {
                 id: Date.now(),
                 type: document.getElementById('qrType').value,
                 content: currentQRData,
-                date: new Date().toLocaleDateString('tr-TR'),
+                date: new Date().toLocaleDateString(),
                 settings: {
                     foregroundColor: document.getElementById('foregroundColor').value,
                     backgroundColor: document.getElementById('backgroundColor').value,
@@ -1123,31 +1119,31 @@ END:VCARD`;
 
         function getTypeLabel(type) {
             const labels = {
-                'text': 'Metin/URL',
+                'text': 'Text/URL',
                 'wifi': 'WiFi',
-                'vcard': 'Kartvizit',
+                'vcard': 'Business Card',
                 'sms': 'SMS',
-                'email': 'E-posta'
+                'email': 'Email'
             };
             return labels[type] || type;
         }
 
         function loadFromHistory(item) {
-            // Ayarları yükle
+            // Load settings
             document.getElementById('qrType').value = item.type;
             document.getElementById('foregroundColor').value = item.settings.foregroundColor;
             document.getElementById('backgroundColor').value = item.settings.backgroundColor;
             document.getElementById('qrSize').value = item.settings.size;
             document.getElementById('useGradient').checked = item.settings.useGradient;
             
-            // Stil seçimi
+            // Style selection
             document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
             document.querySelector(`[data-style="${item.settings.style}"]`).classList.add('selected');
             
-            // Tür değiştir ve içeriği yükle
+            // Change type and load content
             changeQRType();
             
-            // İçeriği parse et ve form alanlarını doldur
+            // Parse content and fill form fields
             if (item.type === 'text') {
                 document.getElementById('textContent').value = item.content;
             } else if (item.type === 'wifi') {
@@ -1156,7 +1152,7 @@ END:VCARD`;
                 document.getElementById('wifiPassword').value = wifiData.password || '';
                 document.getElementById('wifiSecurity').value = wifiData.security || 'WPA';
             }
-            // Diğer türler için de parse işlemleri eklenebilir
+            // Parse functions for other types can be added here
             
             updateSize();
             toggleGradient();
@@ -1199,27 +1195,27 @@ END:VCARD`;
         }
 
         function clearHistory() {
-            if (confirm('Tüm geçmişi silmek istediğinizden emin misiniz?')) {
+            if (confirm('Are you sure you want to clear all history?')) {
                 qrHistory = [];
                 localStorage.setItem('qrHistory', JSON.stringify(qrHistory));
                 updateHistoryPanel();
             }
         }
 
-        // Kaynak kod gösterme
+        // Show source code
         function showSourceCode() {
             const newWindow = window.open('', '_blank');
             newWindow.document.write('<pre style="white-space: pre-wrap; word-wrap: break-word; font-family: monospace; padding: 20px;">' + 
                 document.documentElement.outerHTML.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>');
-            newWindow.document.title = 'QR Generator Kaynak Kodu';
+            newWindow.document.title = 'QR Generator Source Code';
         }
 
-        // Sayfa yüklendiğinde
+        // Page load
         document.addEventListener('DOMContentLoaded', function() {
             loadTheme();
             updateHistoryPanel();
             
-            // Canvas roundRect polyfill (eski tarayıcılar için)
+            // Canvas roundRect polyfill (for older browsers)
             if (!CanvasRenderingContext2D.prototype.roundRect) {
                 CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
                     if (w < 2 * r) r = w / 2;
