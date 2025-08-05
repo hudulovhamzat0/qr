@@ -199,26 +199,6 @@
             border-color: var(--orange-primary);
         }
 
-        .gradient-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 10px;
-            align-items: end;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .checkbox {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--orange-primary);
-        }
-
         .btn {
             padding: 12px 20px;
             font-size: 14px;
@@ -254,38 +234,6 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-        }
-
-        .logo-upload {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .logo-upload input {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .logo-preview {
-            width: 100px;
-            height: 100px;
-            border: 2px dashed var(--border-color);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
-            background: var(--bg-primary);
-        }
-
-        .logo-preview img {
-            max-width: 90px;
-            max-height: 90px;
-            border-radius: 5px;
         }
 
         .qr-preview {
@@ -598,44 +546,6 @@
                     </div>
                 </div>
 
-                <!-- Gradient -->
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" class="checkbox" id="useGradient" onchange="toggleGradient()">
-                        <label class="form-label">Use Gradient</label>
-                    </div>
-                    <div id="gradientControls" style="display: none;">
-                        <div class="gradient-controls">
-                            <div class="form-group">
-                                <input type="color" class="color-input" id="gradientColor1" value="#ff6b35" onchange="generatePreview()">
-                            </div>
-                            <div class="form-group">
-                                <input type="color" class="color-input" id="gradientColor2" value="#ff8c42" onchange="generatePreview()">
-                            </div>
-                            <div class="form-group">
-                                <select class="form-select" id="gradientDirection" onchange="generatePreview()">
-                                    <option value="0">Horizontal</option>
-                                    <option value="90">Vertical</option>
-                                    <option value="45">Diagonal</option>
-                                    <option value="135">Reverse Diagonal</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Logo -->
-                <div class="form-group">
-                    <label class="form-label">Add Logo</label>
-                    <div class="logo-upload">
-                        <input type="file" accept="image/*" onchange="handleLogoUpload(event)">
-                        <button type="button" class="btn btn-secondary" style="width: 100%;">Choose Logo</button>
-                    </div>
-                    <div class="logo-preview" id="logoPreview">
-                        <span style="color: var(--text-secondary);">Logo preview</span>
-                    </div>
-                </div>
-
                 <!-- Style Options -->
                 <div class="form-group">
                     <label class="form-label">QR Style</label>
@@ -644,12 +554,6 @@
                         <div class="style-option" data-style="circle" onclick="selectStyle('circle')">Round</div>
                         <div class="style-option" data-style="rounded" onclick="selectStyle('rounded')">Soft</div>
                     </div>
-                </div>
-
-                <!-- Size -->
-                <div class="form-group">
-                    <label class="form-label">Size: <span id="sizeValue">300</span>px</label>
-                    <input type="range" class="form-input" id="qrSize" min="200" max="800" value="300" oninput="updateSize(); generatePreview()">
                 </div>
             </div>
         </div>
@@ -686,7 +590,6 @@
 
     <script>
         let currentQRData = '';
-        let currentLogoData = null;
         let qrHistory = JSON.parse(localStorage.getItem('qrHistory') || '[]');
 
         // Theme functions
@@ -781,22 +684,12 @@ END:VCARD`;
                 qr.addData(content);
                 qr.make();
                 
-                const size = parseInt(document.getElementById('qrSize').value);
+                const size = 300;
                 const foregroundColor = document.getElementById('foregroundColor').value;
                 const backgroundColor = document.getElementById('backgroundColor').value;
-                const useGradient = document.getElementById('useGradient').checked;
                 
-                if (useGradient) {
-                    const svg = createGradientQR(qr, size);
-                    container.innerHTML = svg;
-                } else {
-                    const canvas = createQRCanvas(qr, size, foregroundColor, backgroundColor);
-                    container.appendChild(canvas);
-                }
-                
-                if (currentLogoData) {
-                    addLogoToQR();
-                }
+                const canvas = createQRCanvas(qr, size, foregroundColor, backgroundColor);
+                container.appendChild(canvas);
             } catch (error) {
                 console.error('QR code generation error:', error);
             }
@@ -840,111 +733,11 @@ END:VCARD`;
             return canvas;
         }
 
-        // Create gradient SVG QR code
-        function createGradientQR(qr, size) {
-            const modules = qr.getModuleCount();
-            const cellSize = size / modules;
-            const gradientColor1 = document.getElementById('gradientColor1').value;
-            const gradientColor2 = document.getElementById('gradientColor2').value;
-            const gradientDirection = document.getElementById('gradientDirection').value;
-            
-            let gradientDef = '';
-            switch(gradientDirection) {
-                case '0': gradientDef = 'x1="0%" y1="0%" x2="100%" y2="0%"'; break;
-                case '90': gradientDef = 'x1="0%" y1="0%" x2="0%" y2="100%"'; break;
-                case '45': gradientDef = 'x1="0%" y1="0%" x2="100%" y2="100%"'; break;
-                case '135': gradientDef = 'x1="100%" y1="0%" x2="0%" y2="100%"'; break;
-            }
-            
-            let svg = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="qrGradient" ${gradientDef}>
-                        <stop offset="0%" style="stop-color:${gradientColor1}"/>
-                        <stop offset="100%" style="stop-color:${gradientColor2}"/>
-                    </linearGradient>
-                </defs>
-                <rect width="${size}" height="${size}" fill="${document.getElementById('backgroundColor').value}"/>`;
-            
-            const style = document.querySelector('.style-option.selected').dataset.style;
-            
-            for (let row = 0; row < modules; row++) {
-                for (let col = 0; col < modules; col++) {
-                    if (qr.isDark(row, col)) {
-                        const x = col * cellSize;
-                        const y = row * cellSize;
-                        
-                        if (style === 'circle') {
-                            svg += `<circle cx="${x + cellSize/2}" cy="${y + cellSize/2}" r="${cellSize/2}" fill="url(#qrGradient)"/>`;
-                        } else if (style === 'rounded') {
-                            svg += `<rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" rx="${cellSize/4}" fill="url(#qrGradient)"/>`;
-                        } else {
-                            svg += `<rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" fill="url(#qrGradient)"/>`;
-                        }
-                    }
-                }
-            }
-            
-            svg += '</svg>';
-            return svg;
-        }
-
-        // Logo upload
-        function handleLogoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentLogoData = e.target.result;
-                    const preview = document.getElementById('logoPreview');
-                    preview.innerHTML = `<img src="${e.target.result}" alt="Logo">`;
-                    generatePreview();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Add logo to QR
-        function addLogoToQR() {
-            const container = document.getElementById('qrPreview');
-            const qrElement = container.querySelector('canvas, svg');
-            if (!qrElement || !currentLogoData) return;
-            
-            const logo = new Image();
-            logo.onload = function() {
-                if (qrElement.tagName === 'CANVAS') {
-                    const ctx = qrElement.getContext('2d');
-                    const logoSize = qrElement.width * 0.2;
-                    const x = (qrElement.width - logoSize) / 2;
-                    const y = (qrElement.height - logoSize) / 2;
-                    
-                    // Logo background
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
-                    
-                    // Logo
-                    ctx.drawImage(logo, x, y, logoSize, logoSize);
-                }
-            };
-            logo.src = currentLogoData;
-        }
-
         // Style selection
         function selectStyle(style) {
             document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
             document.querySelector(`[data-style="${style}"]`).classList.add('selected');
             generatePreview();
-        }
-
-        // Gradient toggle
-        function toggleGradient() {
-            const useGradient = document.getElementById('useGradient').checked;
-            document.getElementById('gradientControls').style.display = useGradient ? 'block' : 'none';
-            generatePreview();
-        }
-
-        // Size update
-        function updateSize() {
-            document.getElementById('sizeValue').textContent = document.getElementById('qrSize').value;
         }
 
         // Download functions
@@ -1053,23 +846,78 @@ END:VCARD`;
         }
 
         // Share functions
+        function getQRImageUrl() {
+            const container = document.getElementById('qrPreview');
+            const canvas = container.querySelector('canvas');
+            if (!canvas) return null;
+            return canvas.toDataURL('image/png');
+        }
+
         function shareToTwitter() {
-            const text = encodeURIComponent('My QR code is ready! #QRCode');
-            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+            const imgUrl = getQRImageUrl();
+            if (!imgUrl) return;
+            
+            // Create a blob from the data URL
+            const blob = dataURLtoBlob(imgUrl);
+            const formData = new FormData();
+            formData.append('media', blob, 'qr-code.png');
+            
+            // First upload image to Twitter
+            fetch('https://upload.twitter.com/1.1/media/upload.json', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+            .then(data => {
+                const mediaId = data.media_id_string;
+                const text = encodeURIComponent('Here is my QR code! #QRCode');
+                window.open(`https://twitter.com/intent/tweet?text=${text}&media_ids=${mediaId}`, '_blank');
+            });
         }
 
         function shareToFacebook() {
-            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');
+            const imgUrl = getQRImageUrl();
+            if (!imgUrl) return;
+            
+            // Facebook sharing dialog with image
+            const url = 'https://www.facebook.com/dialog/share?' +
+                'app_id=YOUR_APP_ID' + // You need to create a Facebook app and get an app ID
+                '&display=popup' +
+                '&href=' + encodeURIComponent(window.location.href) +
+                '&picture=' + encodeURIComponent(imgUrl);
+            
+            window.open(url, '_blank');
         }
 
         function shareToWhatsApp() {
-            const text = encodeURIComponent('My QR code is ready!');
+            const imgUrl = getQRImageUrl();
+            if (!imgUrl) return;
+            
+            const text = encodeURIComponent('Here is my QR code!');
+            // Note: WhatsApp Web API doesn't support direct image sharing
+            // We can only share the image as a file through the native app
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
         function shareToTelegram() {
-            const text = encodeURIComponent('My QR code is ready!');
+            const imgUrl = getQRImageUrl();
+            if (!imgUrl) return;
+            
+            const text = encodeURIComponent('Here is my QR code!');
+            // Note: Telegram API doesn't support direct image sharing through URL
+            // We can only share the text with a link
             window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${text}`, '_blank');
+        }
+
+        function dataURLtoBlob(dataURL) {
+            const arr = dataURL.split(',');
+            const mime = arr[0].match(/:(.*?);/)[1];
+            const bstr = atob(arr[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while(n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {type: mime});
         }
 
         // History functions
