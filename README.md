@@ -56,7 +56,7 @@ npx serve .
 ### Option 3: GitHub Pages
 1. Fork this repository
 2. Enable GitHub Pages in settings
-3. Access via `https://yourusername.github.io/qr-generator`
+3. Access via `https://hudulovhamza.github.io/qr
 
 ## 📖 Usage Guide
 
@@ -165,7 +165,7 @@ else if (style === 'custom') {
 - **Load Time**: < 2 seconds on 3G connection
 - **Generation Speed**: < 100ms for standard QR codes
 - **Memory Usage**: < 10MB typical usage
-- **File Size**: Single HTML file ~25KB (excluding CDN libraries)
+- **File Size**: Single HTML file ~50kb (excluding CDN libraries)
 
 ## 🔒 Privacy & Security
 
@@ -249,8 +249,8 @@ copies of the Software...
 
 <div align="center">
 
-**Made with ❤️ for the open source community**
+**Made with ❤️ for the open source community by Hudulov Hamzat**
 
-[⭐ Star this project](https://github.com/yourusername/qr-generator) if you find it useful!
+[⭐ Star this project](https://github.com/hudulovhamzat0/) if you find it useful!
 
 </div>
