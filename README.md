@@ -7,6 +7,10 @@ A powerful, feature-rich QR code generator with modern design, real-time preview
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
 ![CSS](https://img.shields.io/badge/CSS-Modern-blueviolet)
 
+## ScreenShot of Web Apllication
+<img src='https://github.com/hudulovhamzat0/qr/blob/main/ss.png'>
+
+
 ## ✨ Features
 
 ### 🎨 **Visual Customization**
